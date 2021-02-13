@@ -25,17 +25,10 @@ RUN set -x \
  && rm youtube-dl.sig \
  && apk del curl gnupg \
     # Create directory to hold downloads.
- && mkdir /downloads \
- && chmod a+rw /downloads \
-    # Sets up cache.
  && mkdir /.cache \
  && chmod 777 /.cache
 
 ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
-
-WORKDIR /downloads
-
-VOLUME ["/downloads"]
 
 # Basic check.
 RUN dumb-init youtube-dl --version
