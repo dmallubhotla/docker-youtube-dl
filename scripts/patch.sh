@@ -19,7 +19,7 @@ if [ -z "$(git status --porcelain)" ]; then
 		git add .version
 		git commit -m "Created version $version"
 		git tag -a "$version" -m "patch.sh created version $version"
-		git push --tags
+		git push --follow-tags
 	else
 		echo "Surrendering, clean up by reverting .version..."
 		exit 2
