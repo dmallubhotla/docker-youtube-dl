@@ -22,6 +22,9 @@ pipeline {
 			steps {
 				script {
 					def newApp = docker.build "${REGISTRY_URL}${IMAGE_BASE}:${env.BUILD_TAG}"
+					if (env.BRANCH_NAME == "master") {
+						newApp.push()
+					}
 				}
 			}
 		}
