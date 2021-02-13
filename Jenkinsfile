@@ -18,6 +18,12 @@ pipeline {
 	}
 
 	stages {
+		stage('Pre-build') {
+			steps {
+				echo 'Setting build script permissions'
+				sh 'chmod +x scripts/build.sh'
+			}
+		}
 		stage('Build') {
 			steps {
 				script {
@@ -26,6 +32,7 @@ pipeline {
 						if (env.BRANCH_NAME == "master") {
 							newApp.push()
 						}
+						sh 'scripts/build.sh'
 					}
 				}
 			}
