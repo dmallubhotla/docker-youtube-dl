@@ -1,11 +1,12 @@
+def newImage
 pipeline {
 	agent {
-	  kubernetes {
-		label 'docker-ytdl'  // all your pods will be named with this prefix, followed by a unique id
-		idleMinutes 5  // how long the pod will live after no jobs have run on it
-		yamlFile 'jenkins/ci-agent-pod.yaml'  // path to the pod definition relative to the root of our project 
-		defaultContainer 'docker'  // define a default container if more than a few stages use it, will default to jnlp container
-	  }
+		kubernetes {
+			label 'docker-ytdl'  // all your pods will be named with this prefix, followed by a unique id
+			idleMinutes 5  // how long the pod will live after no jobs have run on it
+			yamlFile 'jenkins/ci-agent-pod.yaml'  // path to the pod definition relative to the root of our project 
+			defaultContainer 'docker'  // define a default container if more than a few stages use it, will default to jnlp container
+		}
 	}
 	
 	options {
@@ -18,21 +19,15 @@ pipeline {
 	}
 
 	stages {
-		stage('Pre-build') {
-			steps {
-				echo 'Setting build script permissions'
-				sh 'chmod +x scripts/build.sh'
-			}
-		}
 		stage('Build') {
 			steps {
 				script {
 					docker.withRegistry("https://ghcr.io", 'github-packages-ytdl') {
-						def newApp = docker.build "${REGISTRY_URL}${IMAGE_BASE}:${env.BUILD_TAG}"
+						newImage = docker.build "${REGISTRY_URL}${IMAGE_BASE}:${env.BUILD_TAG}"
 						if (env.BRANCH_NAME == "master") {
-							newApp.push()
+							newImage.push()
 						}
-						sh 'scripts/build.sh'
+
 					}
 				}
 			}
@@ -43,11 +38,16 @@ pipeline {
 			}
 			steps {
 				echo 'Deploying...'
-				sh 'chmod +x scripts/deploy.sh'
-				script {
-					docker.withRegistry("https://ghcr.io", 'github-packages-ytdl') {
-						sh 'scripts/deploy.sh'
-					}
+				def version = readFile('.version')
+				def versions = version.split('\\.')
+				def major = versions[0]
+				def minor = versions[0] + '.' + versions[1]
+				def patch = version.trim()
+				docker.withRegistry('', 'my-dockerhub-credentials') {
+					newImage.push("latest")
+					newImage.push(major)
+					newImage.push(minor)
+					newImage.push(patch)
 				}
 			}
 		}
