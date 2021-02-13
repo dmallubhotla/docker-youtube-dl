@@ -11,20 +11,10 @@ pipeline {
 	}
 
 	stages {
-		stage('Pre-Build') {
-			steps {
-				echo 'Setting permission for build script'
-				sh "chmod +x scripts/build.sh"
-			}
-		}
 		stage('Build') {
-			steps {
-				echo 'Building...'
-				script {
-					docker.withRegistry("REGISTRY_URL") {
-						sh 'scripts/build.sh'
-					}
-				}
+			docker.withRegistry("${REGISTRY_URL}", 'github-packages-ytdl') {
+				def newApp = docker.build "${REGISTRY_URL}${IMAGE_BASE}:${env.BUILD_TAG}"
+				newapp.push()
 			}
 		}
 		stage('Deploy') {
