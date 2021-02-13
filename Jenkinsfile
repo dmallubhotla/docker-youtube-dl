@@ -11,6 +11,12 @@ pipeline {
 	}
 
 	stages {
+		stage('Pre-Build') {
+			steps {
+				echo 'Setting permission for build script'
+				sh "chmod +x scripts/build.sh"
+			}
+		}
 		stage('Build') {
 			steps {
 				echo 'Building...'
@@ -24,6 +30,7 @@ pipeline {
 			}
 			steps {
 				echo 'Deploying...'
+				sh 'chmod +x scripts/deploy.sh'
 				withCredentials([usernamePassword(credentialsId: 'github-packages-ytdl', passwordVariable: 'REGISTRY_PW', usernameVariable: 'REGISTRY_USER')]) {
 					sh 'scripts/deploy.sh'
 				}
