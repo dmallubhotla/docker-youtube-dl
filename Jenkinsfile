@@ -12,9 +12,12 @@ pipeline {
 
 	stages {
 		stage('Build') {
-			docker.withRegistry("${REGISTRY_URL}", 'github-packages-ytdl') {
-				def newApp = docker.build "${REGISTRY_URL}${IMAGE_BASE}:${env.BUILD_TAG}"
-				newapp.push()
+			steps {
+				script {
+					docker.withRegistry("${REGISTRY_URL}", 'github-packages-ytdl') {
+					def newApp = docker.build "${REGISTRY_URL}${IMAGE_BASE}:${env.BUILD_TAG}"
+					newapp.push()
+				}
 			}
 		}
 		stage('Deploy') {
