@@ -21,9 +21,11 @@ pipeline {
 		stage('Build') {
 			steps {
 				script {
-					def newApp = docker.build "${REGISTRY_URL}${IMAGE_BASE}:${env.BUILD_TAG}"
-					if (env.BRANCH_NAME == "master") {
-						newApp.push()
+					docker.withRegistry("https://ghcr.io", 'github-packages-ytdl') {
+						def newApp = docker.build "${REGISTRY_URL}${IMAGE_BASE}:${env.BUILD_TAG}"
+						if (env.BRANCH_NAME == "master") {
+							newApp.push()
+						}
 					}
 				}
 			}
