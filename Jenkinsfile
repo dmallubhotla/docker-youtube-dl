@@ -44,8 +44,10 @@ pipeline {
 			steps {
 				echo 'Deploying...'
 				sh 'chmod +x scripts/deploy.sh'
-				withCredentials([usernamePassword(credentialsId: 'github-packages-ytdl', passwordVariable: 'REGISTRY_PW', usernameVariable: 'REGISTRY_USER')]) {
-					sh 'scripts/deploy.sh'
+				script {
+					docker.withRegistry("https://ghcr.io", 'github-packages-ytdl') {
+						sh 'scripts/deploy.sh'
+					}
 				}
 			}
 		}
