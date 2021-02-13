@@ -6,9 +6,8 @@ pipeline {
 	}
 
 	environment {
-		REGISTRY_URL="docker.pkg.github.com/dmallubhotla/docker-youtube-dl/"
+		REGISTRY_URL="ghcr.io/dmallubhotla/"
 		IMAGE_BASE="youtube-dl"
-		GITHUB_PACKAGES=credentials("github-packages-ytdl")
 	}
 
 	stages {
@@ -25,7 +24,9 @@ pipeline {
 			}
 			steps {
 				echo 'Deploying...'
-				sh 'scripts/deploy.sh'
+				withCredentials([usernamePassword(credentialsId: 'github-packages-ytdl', passwordVariable: 'REGISTRY_PW', usernameVariable: 'REGISTRY_USER')]) {
+					sh 'scripts/deploy.sh'
+				}
 			}
 		}
 	}

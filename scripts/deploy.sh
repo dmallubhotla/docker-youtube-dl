@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -Eeuxo pipefail
 
-docker login "$REGISTRY_URL" -u "$GITHUB_PACKAGES_USR" -p "$GITHUB_PACKAGES_PSW"
+docker login "$REGISTRY_URL" -u '$REGISTRY_USER' -p '$REGISTRY_PW'
 
 docker push "$REGISTRY_URL$IMAGE_BASE"
