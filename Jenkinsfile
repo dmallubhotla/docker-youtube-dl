@@ -20,8 +20,9 @@ pipeline {
 		stage('Build') {
 			steps {
 				echo 'Building...'
-				sh 'python --version'
-				sh 'scripts/build.sh'
+				docker.withRegistry("REGISTRY_URL") {
+					sh 'scripts/build.sh'
+				}
 			}
 		}
 		stage('Deploy') {
@@ -40,8 +41,6 @@ pipeline {
 	post {
 		always {
 			echo 'This will always run'
-			junit 'pytest.xml'
-			cobertura coberturaReportFile: 'coverage.xml'
 			mail (bcc: '',
 				body: "Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> Build URL: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: 'jenkins@jenkins.deepak.science', mimeType: 'text/html', replyTo: 'dmallubhotla+jenkins@gmail.com', subject: "${env.JOB_NAME} #${env.BUILD_NUMBER}: Build ${currentBuild.currentResult}", to: "dmallubhotla+ci@gmail.com")
 		}
