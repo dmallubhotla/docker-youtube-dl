@@ -20,8 +20,10 @@ pipeline {
 		stage('Build') {
 			steps {
 				echo 'Building...'
-				docker.withRegistry("REGISTRY_URL") {
-					sh 'scripts/build.sh'
+				script {
+					docker.withRegistry("REGISTRY_URL") {
+						sh 'scripts/build.sh'
+					}
 				}
 			}
 		}
