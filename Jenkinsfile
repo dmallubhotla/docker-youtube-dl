@@ -38,16 +38,18 @@ pipeline {
 			}
 			steps {
 				echo 'Deploying...'
-				def version = readFile('.version')
-				def versions = version.split('\\.')
-				def major = versions[0]
-				def minor = versions[0] + '.' + versions[1]
-				def patch = version.trim()
-				docker.withRegistry('', 'my-dockerhub-credentials') {
-					newImage.push("latest")
-					newImage.push(major)
-					newImage.push(minor)
-					newImage.push(patch)
+				script {
+					def version = readFile('.version')
+					def versions = version.split('\\.')
+					def major = versions[0]
+					def minor = versions[0] + '.' + versions[1]
+					def patch = version.trim()
+					docker.withRegistry('', 'my-dockerhub-credentials') {
+						newImage.push("latest")
+						newImage.push(major)
+						newImage.push(minor)
+						newImage.push(patch)
+					}
 				}
 			}
 		}
