@@ -1,6 +1,9 @@
 Copied from https://github.com/wernight/docker-youtube-dl
 
 Supported tags and respective `Dockerfile` links
+
+Version 2 switches to youtube-dlp.
+
 ================================================
 
   * [`latest`](https://github.com/wernight/docker-youtube-dl/blob/master/Dockerfile) [![](https://images.microbadger.com/badges/image/wernight/youtube-dl.svg)](http://microbadger.com/images/wernight/youtube-dl "Get your own image badge on microbadger.com")
