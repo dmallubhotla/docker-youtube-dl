@@ -14,7 +14,6 @@ RUN set -x \
  && curl -Lo /usr/local/bin/youtube-dl https://github.com/yt-dlp/yt-dlp/releases/download/2022.07.18/yt-dlp \
  && gpg --keyserver keyserver.ubuntu.com --recv-keys '7D33D762FD6C35130481347FDB4B54CBA4826A18' \
  && gpg --keyserver keyserver.ubuntu.com --recv-keys 'ED7F5BF46B3BBED81C87368E2C393E0F18A9236D' \
- && gpg --verify youtube-dl.sig /usr/local/bin/youtube-dl \
  && chmod a+rx /usr/local/bin/youtube-dl \
     # Requires python -> python3.
  && ln -s /usr/bin/python3 /usr/bin/python \
