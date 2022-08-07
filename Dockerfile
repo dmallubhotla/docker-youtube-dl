@@ -18,7 +18,6 @@ RUN set -x \
     # Requires python -> python3.
  && ln -s /usr/bin/python3 /usr/bin/python \
     # Clean-up
- && rm youtube-dl.sig \
  && apk del curl gnupg \
     # Create directory to hold downloads.
  && mkdir /.cache \
