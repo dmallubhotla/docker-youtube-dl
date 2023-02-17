@@ -11,7 +11,7 @@ RUN set -x \
         ffmpeg \
         gnupg \
         python3 \
- && curl -Lo /usr/local/bin/youtube-dl https://github.com/yt-dlp/yt-dlp/releases/download/2022.07.18/yt-dlp \
+ && curl -Lo /usr/local/bin/youtube-dl https://github.com/yt-dlp/yt-dlp/releases/download/2023.02.17/yt-dlp \
  && gpg --keyserver keyserver.ubuntu.com --recv-keys '7D33D762FD6C35130481347FDB4B54CBA4826A18' \
  && gpg --keyserver keyserver.ubuntu.com --recv-keys 'ED7F5BF46B3BBED81C87368E2C393E0F18A9236D' \
  && chmod a+rx /usr/local/bin/youtube-dl \
