@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM alpine:3.20
 
 # https://github.com/Yelp/dumb-init/releases
 ARG DUMB_INIT_VERSION=1.2.2
